@@ -4,110 +4,59 @@ on:
   workflow_dispatch:
     inputs:
       result_string:
-        description: 'String of 5 chars (T/F), e.g. "TTFFT"'
+        description: 'Step success result (T to pass, F for failure), e.g. "TTFFT"'
         required: true
         default: "TTTTT"
+      sleep_timeout:
+        description: 'Sleep timeouts in seconds, e.g. "10 20 10 10 30"'
+        required: true
+        default: "10 10 10 10 10"
+
+env:
+  RESULT_STRING: ${{ github.event.inputs.result_string }}
+  SLEEP_TIMEOUTS: ${{ github.event.inputs.sleep_timeout }}
+  _RUN: |
+    idx=$1
+    ts=( $SLEEP_TIMEOUTS )
+    sleep "${ts[$idx]}"
+    step_num=$((idx+1))
+    if [ "${RESULT_STRING:$idx:1}" = "T" ]; then
+      echo "Step $step_num passed"
+    else
+      echo "Step $step_num failed"
+      exit 1
+    fi
 
 jobs:
   normal:
     runs-on: ubuntu-latest
     steps:
       - name: Step 1
-        run: |
-          sleep 10
-          if [ "${{ github.event.inputs.result_string:0:1 }}" = "T" ]; then
-            echo "Step 1 passed"
-          else
-            echo "Step 1 failed"
-            exit 1
-          fi
+        run: eval "$_RUN" 0
       - name: Step 2
-        run: |
-          sleep 10
-          if [ "${{ github.event.inputs.result_string:1:1 }}" = "T" ]; then
-            echo "Step 2 passed"
-          else
-            echo "Step 2 failed"
-            exit 1
-          fi
+        run: eval "$_RUN" 1
       - name: Step 3
-        run: |
-          sleep 10
-          if [ "${{ github.event.inputs.result_string:2:1 }}" = "T" ]; then
-            echo "Step 3 passed"
-          else
-            echo "Step 3 failed"
-            exit 1
-          fi
+        run: eval "$_RUN" 2
       - name: Step 4
-        run: |
-          sleep 10
-          if [ "${{ github.event.inputs.result_string:3:1 }}" = "T" ]; then
-            echo "Step 4 passed"
-          else
-            echo "Step 4 failed"
-            exit 1
-          fi
+        run: eval "$_RUN" 3
       - name: Step 5
-        run: |
-          sleep 10
-          if [ "${{ github.event.inputs.result_string:4:1 }}" = "T" ]; then
-            echo "Step 5 passed"
-          else
-            echo "Step 5 failed"
-            exit 1
-          fi
+        run: eval "$_RUN" 4
 
   continue-on-error:
     runs-on: ubuntu-latest
     steps:
       - name: Step 1
         continue-on-error: true
-        run: |
-          sleep 10
-          if [ "${{ github.event.inputs.result_string:0:1 }}" = "T" ]; then
-            echo "Step 1 passed"
-          else
-            echo "Step 1 failed"
-            exit 1
-          fi
+        run: eval "$_RUN" 0
       - name: Step 2
         continue-on-error: true
-        run: |
-          sleep 10
-          if [ "${{ github.event.inputs.result_string:1:1 }}" = "T" ]; then
-            echo "Step 2 passed"
-          else
-            echo "Step 2 failed"
-            exit 1
-          fi
+        run: eval "$_RUN" 1
       - name: Step 3
         continue-on-error: true
-        run: |
-          sleep 10
-          if [ "${{ github.event.inputs.result_string:2:1 }}" = "T" ]; then
-            echo "Step 3 passed"
-          else
-            echo "Step 3 failed"
-            exit 1
-          fi
+        run: eval "$_RUN" 2
       - name: Step 4
         continue-on-error: true
-        run: |
-          sleep 10
-          if [ "${{ github.event.inputs.result_string:3:1 }}" = "T" ]; then
-            echo "Step 4 passed"
-          else
-            echo "Step 4 failed"
-            exit 1
-          fi
+        run: eval "$_RUN" 3
       - name: Step 5
         continue-on-error: true
-        run: |
-          sleep 10
-          if [ "${{ github.event.inputs.result_string:4:1 }}" = "T" ]; then
-            echo "Step 5 passed"
-          else
-            echo "Step 5 failed"
-            exit 1
-          fi
+        run: eval "$_RUN" 4
