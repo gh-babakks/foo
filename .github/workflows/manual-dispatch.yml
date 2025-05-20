@@ -1,0 +1,83 @@
+name: Test job/step failure
+
+on:
+  workflow_dispatch:
+    inputs:
+      result_string:
+        description: 'Step success result (T to pass, F for failure), e.g. "TTFFT"'
+        required: true
+        default: "TTTTT"
+      sleep_timeout:
+        description: 'Sleep timeouts in seconds, e.g. "10 20 10 10 30"'
+        required: true
+        default: "10 10 10 10 10"
+
+env:
+  RESULT_STRING: ${{ github.event.inputs.result_string }}
+  SLEEP_TIMEOUTS: ${{ github.event.inputs.sleep_timeout }}
+  _RUN: |
+    play() {
+        idx=$1
+        ts=( $SLEEP_TIMEOUTS )
+        sleep "${ts[$idx]}"
+        step_num=$((idx+1))
+        if [ "${RESULT_STRING:$idx:1}" = "T" ]; then
+          echo "Step $step_num passed"
+        else
+          echo "Step $step_num failed"
+          exit 1
+        fi
+    }
+
+jobs:
+  normal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step 1
+        run: eval "$_RUN"; play 0
+      - name: Step 2
+        run: eval "$_RUN"; play 1
+      - name: Step 3
+        run: eval "$_RUN"; play 2
+      - name: Step 4
+        run: eval "$_RUN"; play 3
+      - name: Step 5
+        run: eval "$_RUN"; play 4
+
+  continue-on-error:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step 1
+        continue-on-error: true
+        run: eval "$_RUN"; play 0
+      - name: Step 2
+        continue-on-error: true
+        run: eval "$_RUN"; play 1
+      - name: Step 3
+        continue-on-error: true
+        run: eval "$_RUN"; play 2
+      - name: Step 4
+        continue-on-error: true
+        run: eval "$_RUN"; play 3
+      - name: Step 5
+        continue-on-error: true
+        run: eval "$_RUN"; play 4
+
+  always-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step 1
+        if: always()
+        run: eval "$_RUN"; play 0
+      - name: Step 2
+        if: always()
+        run: eval "$_RUN"; play 1
+      - name: Step 3
+        if: always()
+        run: eval "$_RUN"; play 2
+      - name: Step 4
+        if: always()
+        run: eval "$_RUN"; play 3
+      - name: Step 5
+        if: always()
+        run: eval "$_RUN"; play 4
