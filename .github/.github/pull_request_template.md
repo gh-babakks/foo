@@ -1,4 +1,0 @@
-## Description
-
-This is a PR template.
-
