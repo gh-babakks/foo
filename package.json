@@ -1,0 +1,14 @@
+{
+  "name": "foo",
+  "version": "1.0.0",
+  "description": "A simple tool to show open GitHub issues",
+  "main": "show-issues.js",
+  "scripts": {
+    "show-issues": "node show-issues.js"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": ["github", "issues"],
+  "author": "",
+  "license": "ISC"
+}
