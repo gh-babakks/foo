@@ -1,0 +1,44 @@
+name: Upload Hello World artifacts
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Hello World file and zip it
+        run: |
+          echo "Hello World!" > hello.txt
+          zip -q hello.zip hello.txt
+
+      - name: Upload text file artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-text
+          path: hello.txt
+          if-no-files-found: error
+
+      - name: Upload zipped file artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-zip
+          path: hello.zip
+          if-no-files-found: error
+
+      - name: Create two more files and move all into a directory
+        run: |
+          echo "Hello World, again!" > hello2.txt
+          echo "Hello World, one more time!" > hello3.txt
+          mkdir -p hello_files
+          mv hello.txt hello2.txt hello3.txt hello_files/
+
+      - name: Upload directory containing all text files
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-directory
+          path: hello_files/
+          if-no-files-found: error
