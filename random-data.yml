@@ -1,0 +1,125 @@
+# Random YAML file with various fields and data types
+application:
+  name: "RandomApp"
+  version: "2.1.4"
+  debug_mode: true
+  port: 8080
+  timeout_seconds: 30.5
+
+user_profiles:
+  - id: 12345
+    username: "alice_wonderland"
+    email: "alice@example.com" 
+    active: true
+    last_login: "2024-01-15T10:30:00Z"
+    preferences:
+      theme: "dark"
+      language: "en-US"
+      notifications: true
+      max_items: 50
+  - id: 67890
+    username: "bob_builder"
+    email: "bob@test.org"
+    active: false
+    last_login: null
+    preferences:
+      theme: "light"
+      language: "fr-FR"
+      notifications: false
+      max_items: 25
+
+database:
+  host: "localhost"
+  port: 5432
+  name: "random_db"
+  ssl_enabled: true
+  connection_pool:
+    min_connections: 5
+    max_connections: 100
+    idle_timeout: 300
+
+features:
+  - "user_authentication"
+  - "file_upload"
+  - "real_time_chat"
+  - "data_export"
+  - "analytics_dashboard"
+
+configuration:
+  cache:
+    type: "redis"
+    ttl: 3600
+    cluster_nodes:
+      - "redis-1.example.com:6379"
+      - "redis-2.example.com:6379"
+      - "redis-3.example.com:6379"
+  
+  logging:
+    level: "INFO"
+    format: "json"
+    outputs:
+      console: true
+      file: "/var/log/app.log"
+      syslog: false
+
+metrics:
+  cpu_usage: 23.7
+  memory_usage: 1024.5
+  disk_space_gb: 500
+  request_count: 15847
+  error_rate: 0.02
+  uptime_days: 42
+
+random_strings:
+  - "zebra"
+  - "quantum"
+  - "butterfly"
+  - "telescope"
+  - "harmony"
+
+weather_data:
+  city: "San Francisco"
+  temperature_celsius: 18.5
+  humidity_percent: 65
+  wind_speed_kmh: 12.3
+  conditions: "partly_cloudy"
+  forecast:
+    tomorrow:
+      high: 21
+      low: 14
+      precipitation_chance: 30
+    day_after:
+      high: 19
+      low: 13
+      precipitation_chance: 70
+
+inventory:
+  widgets:
+    blue: 150
+    red: 89
+    green: 203
+  gadgets:
+    small: 45
+    medium: 78
+    large: 23
+  tools:
+    hammer: 12
+    screwdriver: 34
+    wrench: 19
+
+experimental_features:
+  enable_beta_ui: false
+  use_new_algorithm: true
+  max_concurrent_users: 1000
+  feature_toggle_probability: 0.15
+
+metadata:
+  created_at: "2024-01-10T14:22:33Z"
+  updated_at: "2024-01-15T09:45:12Z"
+  created_by: "system"
+  tags:
+    - "sample"
+    - "test"
+    - "random"
+    - "demo"
+  checksum: "a1b2c3d4e5f6g7h8i9j0"
