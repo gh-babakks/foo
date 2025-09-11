@@ -1,0 +1,86 @@
+# Sample YAML file with random fields demonstrating various data types
+application:
+  name: "RandomApp"
+  version: "2.4.7"
+  environment: "production"
+  debug_mode: false
+  max_connections: 1000
+  timeout_seconds: 30.5
+
+database:
+  host: "db.example.com"
+  port: 5432
+  username: "app_user"
+  ssl_enabled: true
+  connection_pool:
+    min_size: 5
+    max_size: 20
+    idle_timeout: 300
+
+features:
+  - name: "user_authentication"
+    enabled: true
+    priority: 1
+  - name: "file_upload"
+    enabled: false
+    priority: 3
+  - name: "real_time_notifications"
+    enabled: true
+    priority: 2
+
+regions:
+  - us-east-1
+  - us-west-2
+  - eu-central-1
+  - ap-southeast-1
+
+metadata:
+  created_at: "2023-09-15T10:30:00Z"
+  updated_at: "2024-01-20T14:45:30Z"
+  tags:
+    team: "backend"
+    cost_center: "engineering"
+    criticality: "high"
+  
+api:
+  base_url: "https://api.example.com/v1"
+  rate_limit: 1000
+  retry_attempts: 3
+  endpoints:
+    users: "/users"
+    orders: "/orders"
+    analytics: "/analytics"
+
+monitoring:
+  health_check:
+    path: "/health"
+    interval: 60
+    timeout: 10
+  metrics:
+    enabled: true
+    export_format: "prometheus"
+    retention_days: 30
+
+random_numbers:
+  - 42
+  - 3.14159
+  - -17
+  - 0.001
+  - 9999999
+
+random_booleans:
+  feature_flag_a: true
+  feature_flag_b: false
+  experimental_mode: true
+  maintenance_mode: false
+
+nested_config:
+  level1:
+    level2:
+      level3:
+        deep_value: "Found me!"
+        treasure: 12345
+        coordinates:
+          x: 10.5
+          y: -20.3
+          z: 100
