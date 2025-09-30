@@ -1,0 +1,24 @@
+name: Manual Cache
+
+on:
+  workflow_dispatch:
+    inputs:
+      cache_name:
+        description: 'Name for the cache entry'
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: mutate
+      run: |
+        mkdir -p .cache
+        date --iso-8601=s > .cache/date.txt
+    - name: store into cache
+      uses: actions/cache/save@v4
+      with:
+        path: .cache
+        key: ${{ inputs.cache_name }}
