@@ -72,7 +72,7 @@ else
     sqrt_neg_discriminant=$(echo "sqrt($abs_discriminant)" | bc -l)
     # Calculate imaginary coefficient using absolute values for standard form a + bi
     # Use sqrt(|discriminant|) / |2a| to ensure positive coefficient
-    abs_2a=$(echo "scale=10; if ($a < 0) -2*$a else 2*$a" | bc -l)
+    abs_2a=$(echo "scale=10; if ($a < 0) -2*$a; else 2*$a;" | bc -l)
     imaginary_part=$(echo "$sqrt_neg_discriminant / $abs_2a" | bc -l)
     
     echo "Root 1: $real_part + ${imaginary_part}i"
