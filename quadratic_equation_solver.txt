@@ -1,0 +1,124 @@
+How to Solve a Quadratic Equation in Shell
+============================================
+
+A quadratic equation has the form: ax² + bx + c = 0
+
+The quadratic formula is: x = (-b ± √(b² - 4ac)) / 2a
+
+This document explains how to solve quadratic equations using shell scripting.
+
+Basic Concepts
+--------------
+1. The discriminant: Δ = b² - 4ac
+   - If Δ > 0: Two distinct real solutions
+   - If Δ = 0: One repeated real solution
+   - If Δ < 0: Two complex solutions
+
+2. The solutions are:
+   - x₁ = (-b + √Δ) / 2a
+   - x₂ = (-b - √Δ) / 2a
+
+Shell Script Implementation
+---------------------------
+
+Here's a complete shell script to solve quadratic equations:
+
+#!/bin/bash
+
+# Quadratic Equation Solver
+# Solves equations of the form: ax² + bx + c = 0
+
+echo "Quadratic Equation Solver"
+echo "Solves: ax² + bx + c = 0"
+echo
+
+# Read coefficients
+read -p "Enter coefficient a: " a
+read -p "Enter coefficient b: " b
+read -p "Enter coefficient c: " c
+
+# Check if a is zero
+if [ $(echo "$a == 0" | bc) -eq 1 ]; then
+    echo "Error: 'a' cannot be zero for a quadratic equation"
+    exit 1
+fi
+
+# Calculate discriminant: b² - 4ac
+discriminant=$(echo "$b * $b - 4 * $a * $c" | bc)
+
+echo
+echo "Discriminant (Δ) = $discriminant"
+
+# Check the nature of roots based on discriminant
+if [ $(echo "$discriminant > 0" | bc) -eq 1 ]; then
+    # Two distinct real roots
+    echo "The equation has two distinct real roots"
+    
+    sqrt_discriminant=$(echo "sqrt($discriminant)" | bc -l)
+    x1=$(echo "scale=4; (-1 * $b + $sqrt_discriminant) / (2 * $a)" | bc -l)
+    x2=$(echo "scale=4; (-1 * $b - $sqrt_discriminant) / (2 * $a)" | bc -l)
+    
+    echo "x₁ = $x1"
+    echo "x₂ = $x2"
+    
+elif [ $(echo "$discriminant == 0" | bc) -eq 1 ]; then
+    # One repeated real root
+    echo "The equation has one repeated real root"
+    
+    x=$(echo "scale=4; -1 * $b / (2 * $a)" | bc -l)
+    echo "x = $x"
+    
+else
+    # Complex roots
+    echo "The equation has two complex roots"
+    
+    real_part=$(echo "scale=4; -1 * $b / (2 * $a)" | bc -l)
+    abs_discriminant=$(echo "$discriminant * -1" | bc)
+    sqrt_abs_discriminant=$(echo "sqrt($abs_discriminant)" | bc -l)
+    imaginary_part=$(echo "scale=4; $sqrt_abs_discriminant / (2 * $a)" | bc -l)
+    
+    echo "x₁ = $real_part + ${imaginary_part}i"
+    echo "x₂ = $real_part - ${imaginary_part}i"
+fi
+
+Usage Examples
+--------------
+
+Example 1: Two distinct real roots
+Equation: x² - 5x + 6 = 0
+Coefficients: a=1, b=-5, c=6
+Solution: x₁ = 3, x₂ = 2
+
+Example 2: One repeated root
+Equation: x² - 4x + 4 = 0
+Coefficients: a=1, b=-4, c=4
+Solution: x = 2
+
+Example 3: Complex roots
+Equation: x² + 2x + 5 = 0
+Coefficients: a=1, b=2, c=5
+Solution: x₁ = -1 + 2i, x₂ = -1 - 2i
+
+Requirements
+------------
+- bash shell
+- bc (basic calculator) command must be installed
+  Install on Debian/Ubuntu: sudo apt-get install bc
+  Install on RHEL/CentOS: sudo yum install bc
+  Install on macOS: bc is typically pre-installed
+
+Tips for Using the Script
+--------------------------
+1. Save the script to a file (e.g., quadratic_solver.sh)
+2. Make it executable: chmod +x quadratic_solver.sh
+3. Run the script: ./quadratic_solver.sh
+4. Enter the coefficients when prompted
+5. The script will calculate and display the solutions
+
+Mathematical Notes
+------------------
+- The bc command is used for floating-point arithmetic
+- scale=4 sets precision to 4 decimal places
+- sqrt() function calculates square root
+- The script handles all three cases: positive, zero, and negative discriminant
+- For complex numbers, the real and imaginary parts are calculated separately
