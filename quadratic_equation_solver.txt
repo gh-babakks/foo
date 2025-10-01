@@ -54,7 +54,7 @@ if [ $(echo "$discriminant > 0" | bc) -eq 1 ]; then
     # Two distinct real roots
     echo "The equation has two distinct real roots"
     
-    sqrt_discriminant=$(echo "sqrt($discriminant)" | bc -l)
+    sqrt_discriminant=$(echo "scale=10; sqrt($discriminant)" | bc -l)
     x1=$(echo "scale=4; (-1 * $b + $sqrt_discriminant) / (2 * $a)" | bc -l)
     x2=$(echo "scale=4; (-1 * $b - $sqrt_discriminant) / (2 * $a)" | bc -l)
     
@@ -74,7 +74,7 @@ else
     
     real_part=$(echo "scale=4; -1 * $b / (2 * $a)" | bc -l)
     abs_discriminant=$(echo "$discriminant * -1" | bc)
-    sqrt_abs_discriminant=$(echo "sqrt($abs_discriminant)" | bc -l)
+    sqrt_abs_discriminant=$(echo "scale=10; sqrt($abs_discriminant)" | bc -l)
     imaginary_part=$(echo "scale=4; $sqrt_abs_discriminant / (2 * $a)" | bc -l)
     
     echo "x₁ = $real_part + ${imaginary_part}i"
