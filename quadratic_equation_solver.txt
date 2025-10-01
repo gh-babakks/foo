@@ -70,10 +70,10 @@ else
     # Discriminant is negative here, so multiply by -1 to get positive value for sqrt
     abs_discriminant=$(echo "$discriminant * -1" | bc)
     sqrt_neg_discriminant=$(echo "sqrt($abs_discriminant)" | bc -l)
-    # Calculate imaginary coefficient: |√|Δ|| / |2a| for standard form a + bi
-    imaginary_part=$(echo "$sqrt_neg_discriminant / (2*$a)" | bc -l)
-    # Remove negative sign if present to ensure standard form
-    imaginary_part=$(echo "$imaginary_part" | sed 's/^-//')
+    # Calculate imaginary coefficient using absolute values for standard form a + bi
+    # Use sqrt(|discriminant|) / |2a| to ensure positive coefficient
+    abs_2a=$(echo "scale=10; if ($a < 0) -2*$a else 2*$a" | bc -l)
+    imaginary_part=$(echo "$sqrt_neg_discriminant / $abs_2a" | bc -l)
     
     echo "Root 1: $real_part + ${imaginary_part}i"
     echo "Root 2: $real_part - ${imaginary_part}i"
