@@ -118,7 +118,8 @@ Tips for Using the Script
 Mathematical Notes
 ------------------
 - The bc command is used for floating-point arithmetic
-- scale=4 sets precision to 4 decimal places
+- scale=10 is used for intermediate sqrt calculations for better precision
+- scale=4 sets precision to 4 decimal places for final results
 - sqrt() function calculates square root
 - The script handles all three cases: positive, zero, and negative discriminant
 - For complex numbers, the real and imaginary parts are calculated separately
