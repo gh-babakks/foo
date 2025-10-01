@@ -67,8 +67,11 @@ else
     
     # Calculate real and imaginary parts
     real_part=$(echo "-$b / (2*$a)" | bc -l)
-    sqrt_neg_discriminant=$(echo "sqrt(-$discriminant)" | bc -l)
-    imaginary_part=$(echo "$sqrt_neg_discriminant / (2*$a)" | bc -l)
+    # Use absolute value of discriminant for sqrt
+    abs_discriminant=$(echo "$discriminant" | sed 's/^-//')
+    sqrt_neg_discriminant=$(echo "sqrt($abs_discriminant)" | bc -l)
+    # Calculate absolute value of imaginary part
+    imaginary_part=$(echo "$sqrt_neg_discriminant / (2*$a)" | bc -l | sed 's/^-//')
     
     echo "Root 1: $real_part + ${imaginary_part}i"
     echo "Root 2: $real_part - ${imaginary_part}i"
