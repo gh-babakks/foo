@@ -1,0 +1,97 @@
+Solving Quadratic Equations in Shell
+======================================
+
+A quadratic equation has the form: ax² + bx + c = 0
+
+The Quadratic Formula
+---------------------
+The solutions are given by: x = (-b ± √(b²-4ac)) / 2a
+
+Where:
+- a, b, c are coefficients (a ≠ 0)
+- The discriminant Δ = b² - 4ac determines the nature of the roots:
+  * Δ > 0: Two distinct real roots
+  * Δ = 0: One repeated real root
+  * Δ < 0: Two complex conjugate roots
+
+Shell Script Implementation
+---------------------------
+
+Here's a basic shell script to solve quadratic equations:
+
+#!/bin/bash
+
+# Read coefficients
+echo "Enter coefficient a:"
+read a
+echo "Enter coefficient b:"
+read b
+echo "Enter coefficient c:"
+read c
+
+# Check if a is zero
+if [ "$a" -eq 0 ]; then
+    echo "Error: 'a' cannot be zero for a quadratic equation"
+    exit 1
+fi
+
+# Calculate discriminant: b² - 4ac
+discriminant=$(echo "$b*$b - 4*$a*$c" | bc)
+
+echo "Discriminant: $discriminant"
+
+# Determine the nature of roots based on discriminant
+if [ $(echo "$discriminant > 0" | bc) -eq 1 ]; then
+    echo "Two distinct real roots exist"
+    
+    # Calculate square root of discriminant
+    sqrt_discriminant=$(echo "sqrt($discriminant)" | bc -l)
+    
+    # Calculate both roots
+    root1=$(echo "(-$b + $sqrt_discriminant) / (2*$a)" | bc -l)
+    root2=$(echo "(-$b - $sqrt_discriminant) / (2*$a)" | bc -l)
+    
+    echo "Root 1: $root1"
+    echo "Root 2: $root2"
+    
+elif [ $(echo "$discriminant == 0" | bc) -eq 1 ]; then
+    echo "One repeated real root exists"
+    
+    # Calculate the single root
+    root=$(echo "-$b / (2*$a)" | bc -l)
+    
+    echo "Root: $root"
+    
+else
+    echo "Two complex conjugate roots exist"
+    
+    # Calculate real and imaginary parts
+    real_part=$(echo "-$b / (2*$a)" | bc -l)
+    sqrt_neg_discriminant=$(echo "sqrt(-$discriminant)" | bc -l)
+    imaginary_part=$(echo "$sqrt_neg_discriminant / (2*$a)" | bc -l)
+    
+    echo "Root 1: $real_part + ${imaginary_part}i"
+    echo "Root 2: $real_part - ${imaginary_part}i"
+fi
+
+Usage Examples
+--------------
+
+Example 1: x² - 5x + 6 = 0 (a=1, b=-5, c=6)
+- Discriminant: 25 - 24 = 1
+- Roots: x = (5 ± 1) / 2 = 3 or 2
+
+Example 2: x² - 4x + 4 = 0 (a=1, b=-4, c=4)
+- Discriminant: 16 - 16 = 0
+- Root: x = 4 / 2 = 2
+
+Example 3: x² + 2x + 5 = 0 (a=1, b=2, c=5)
+- Discriminant: 4 - 20 = -16
+- Roots: x = -1 ± 2i
+
+Notes
+-----
+- The 'bc' command is used for floating-point arithmetic in shell
+- Use 'bc -l' for the math library (includes sqrt function)
+- For integer-only calculations, you can use $(( )) arithmetic expansion
+- Remember to check for division by zero and invalid inputs
