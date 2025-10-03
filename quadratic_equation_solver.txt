@@ -49,8 +49,8 @@ solve_quadratic() {
     sqrt_discriminant=$(echo "scale=4; sqrt($discriminant)" | bc)
     
     # Calculate solutions using quadratic formula
-    x1=$(echo "scale=4; (0 - ($b) + $sqrt_discriminant) / (2 * ($a))" | bc)
-    x2=$(echo "scale=4; (0 - ($b) - $sqrt_discriminant) / (2 * ($a))" | bc)
+    x1=$(echo "scale=4; (-($b) + $sqrt_discriminant) / (2 * ($a))" | bc)
+    x2=$(echo "scale=4; (-($b) - $sqrt_discriminant) / (2 * ($a))" | bc)
     
     is_zero=$(echo "$discriminant == 0" | bc)
     if [ "$is_zero" = "1" ]; then
