@@ -1,0 +1,100 @@
+How to Solve a Quadratic Equation in Shell
+============================================
+
+A quadratic equation has the form: ax² + bx + c = 0
+
+The quadratic formula provides the solutions:
+x = (-b ± √(b²-4ac)) / 2a
+
+Where:
+- a, b, c are coefficients
+- The discriminant is: Δ = b² - 4ac
+- If Δ > 0: Two real solutions
+- If Δ = 0: One real solution
+- If Δ < 0: No real solutions (complex solutions)
+
+Shell Script Example
+====================
+
+Here's a shell script to solve a quadratic equation:
+
+#!/bin/bash
+
+# Function to solve quadratic equation ax² + bx + c = 0
+solve_quadratic() {
+    a=$1
+    b=$2
+    c=$3
+    
+    # Check if 'a' is zero
+    if [ "$a" = "0" ]; then
+        echo "Error: 'a' cannot be zero in a quadratic equation"
+        return 1
+    fi
+    
+    # Calculate discriminant: b² - 4ac
+    discriminant=$(echo "scale=4; ($b) * ($b) - 4 * ($a) * ($c)" | bc)
+    
+    echo "Equation: ${a}x² + ${b}x + ${c} = 0"
+    echo "Discriminant: $discriminant"
+    
+    # Check discriminant value
+    is_negative=$(echo "$discriminant < 0" | bc)
+    if [ "$is_negative" = "1" ]; then
+        echo "No real solutions (discriminant is negative)"
+        return 0
+    fi
+    
+    # Calculate square root of discriminant
+    sqrt_discriminant=$(echo "scale=4; sqrt($discriminant)" | bc)
+    
+    # Calculate solutions using quadratic formula
+    x1=$(echo "scale=4; (0 - ($b) + $sqrt_discriminant) / (2 * ($a))" | bc)
+    x2=$(echo "scale=4; (0 - ($b) - $sqrt_discriminant) / (2 * ($a))" | bc)
+    
+    is_zero=$(echo "$discriminant == 0" | bc)
+    if [ "$is_zero" = "1" ]; then
+        echo "One solution: x = $x1"
+    else
+        echo "Two solutions:"
+        echo "x₁ = $x1"
+        echo "x₂ = $x2"
+    fi
+}
+
+# Usage examples:
+# solve_quadratic 1 -5 6    # x² - 5x + 6 = 0 (solutions: x=2, x=3)
+# solve_quadratic 1 -2 1    # x² - 2x + 1 = 0 (solution: x=1)
+# solve_quadratic 1 0 1     # x² + 1 = 0 (no real solutions)
+
+Examples
+========
+
+Example 1: x² - 5x + 6 = 0
+--------------------------
+$ solve_quadratic 1 -5 6
+Equation: 1x² + -5x + 6 = 0
+Discriminant: 1
+Two solutions:
+x₁ = 3.0000
+x₂ = 2.0000
+
+Example 2: x² - 2x + 1 = 0
+--------------------------
+$ solve_quadratic 1 -2 1
+Equation: 1x² + -2x + 1 = 0
+Discriminant: 0
+One solution: x = 1.0000
+
+Example 3: x² + 1 = 0
+---------------------
+$ solve_quadratic 1 0 1
+Equation: 1x² + 0x + 1 = 0
+Discriminant: -4
+No real solutions (discriminant is negative)
+
+Notes
+=====
+- This script requires 'bc' (basic calculator) for floating-point arithmetic
+- Install bc with: sudo apt-get install bc (Ubuntu/Debian) or brew install bc (macOS)
+- The 'scale=4' setting in bc provides 4 decimal places of precision
