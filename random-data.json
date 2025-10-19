@@ -1,0 +1,42 @@
+{
+  "id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+  "name": "Alice Johnson",
+  "email": "alice.johnson.2024@example.com",
+  "age": 28,
+  "isActive": true,
+  "balance": 1247.83,
+  "address": {
+    "street": "456 Oak Avenue",
+    "city": "Springfield",
+    "state": "CA",
+    "zipCode": "90210",
+    "coordinates": {
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    }
+  },
+  "preferences": {
+    "theme": "dark",
+    "notifications": true,
+    "language": "en-US",
+    "timezone": "America/Los_Angeles"
+  },
+  "hobbies": [
+    "photography",
+    "hiking",
+    "cooking",
+    "reading"
+  ],
+  "scores": [95, 87, 92, 78, 89],
+  "metadata": {
+    "createdAt": "2024-01-15T10:30:00Z",
+    "lastUpdated": "2024-03-10T14:45:30Z",
+    "version": 2,
+    "tags": ["premium", "verified", "beta-tester"]
+  },
+  "randomString": "xK9mP3nQ7wR2vL8sT4yE6uI1oA5z",
+  "randomNumber": 42857,
+  "randomFloat": 3.14159,
+  "randomBoolean": false,
+  "nullValue": null
+}
