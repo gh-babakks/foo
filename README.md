@@ -1,2 +1,2 @@
 # foo
-trailing line at main
+trailing line at local branch
