@@ -1,0 +1,3 @@
+[submodule "subdir/hello-submodule"]
+	path = subdir/hello-submodule
+	url = https://github.com/gh-babakks/Hello-World-fork-fork-3
