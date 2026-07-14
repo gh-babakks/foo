@@ -1,0 +1,84 @@
+# Example configuration file with random fields
+title = "Foo Application Configuration"
+version = "1.2.3"
+
+[database]
+server = "192.168.1.42"
+port = 5432
+connection_max = 5000
+enabled = true
+username = "dbuser"
+password = "super_secret_password"
+ssl_mode = "require"
+
+[server]
+host = "0.0.0.0"
+port = 8080
+workers = 4
+timeout = 30
+debug = false
+allowed_origins = ["https://example.com", "https://api.example.com", "http://localhost:3000"]
+
+[logging]
+level = "info"
+format = "json"
+output = "/var/log/foo.log"
+max_size = "100MB"
+max_files = 5
+compress = true
+
+[features]
+enable_cache = true
+enable_metrics = true
+enable_tracing = false
+rate_limit = 1000
+batch_size = 50
+
+[cache]
+type = "redis"
+host = "localhost"
+port = 6379
+database = 0
+ttl = 3600
+max_connections = 10
+
+[metrics]
+endpoint = "/metrics"
+interval = 60
+tags = ["environment:production", "service:foo", "version:1.2.3"]
+
+[security]
+jwt_secret = "your-256-bit-secret"
+session_timeout = 1800
+max_login_attempts = 5
+lockout_duration = 900
+
+[external_apis]
+weather_api_key = "abc123def456"
+payment_gateway_url = "https://api.payments.example.com"
+notification_service = "https://notifications.example.com/send"
+
+[development]
+hot_reload = true
+mock_external_apis = true
+seed_database = false
+test_mode = false
+
+# Array of tables for multiple environments
+[[environments]]
+name = "development"
+database_url = "postgres://dev:password@localhost/foo_dev"
+log_level = "debug"
+cache_enabled = false
+
+[[environments]]
+name = "staging"
+database_url = "postgres://staging:password@staging-db/foo_staging"
+log_level = "info"
+cache_enabled = true
+
+[[environments]]
+name = "production"
+database_url = "postgres://prod:password@prod-db/foo_prod"
+log_level = "warn"
+cache_enabled = true
