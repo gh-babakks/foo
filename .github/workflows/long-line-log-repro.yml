@@ -1,0 +1,24 @@
+name: Long line log reproduction
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  long-line:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Print long line and markers
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          print("BEFORE-LONG-LINE")
+          print("x" * 70_000)
+          print("AFTER-LONG-LINE")
+          print("END-OF-LONG-LINE-STEP")
+          PY
+      - name: Print later step marker
+        shell: bash
+        run: printf '%s\n' 'LATER-STEP-MARKER'
